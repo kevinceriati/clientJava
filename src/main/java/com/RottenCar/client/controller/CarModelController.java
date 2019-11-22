@@ -1,12 +1,8 @@
 package com.RottenCar.client.controller;
 
-
 import com.RottenCar.client.form.CarForm;
 import com.RottenCar.client.model.Car;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
@@ -22,17 +18,17 @@ import java.util.Map;
 @Controller
 public class CarModelController {
 
-    @RequestMapping(value="/car", method= RequestMethod.GET)
+    @RequestMapping(value = "/car", method = RequestMethod.GET)
     public String carList(Model model) {
         RestTemplate restTemplate = new RestTemplate();
         String ressourceUrl = "http://localhost:8080/car";
-        List <Car> cars = restTemplate.getForObject(ressourceUrl, List.class);
+        List<Car> cars = restTemplate.getForObject(ressourceUrl, List.class);
         model.addAttribute("cars", cars);
-        return "carList" ;
+        return "carList";
     }
 
 
-    @RequestMapping(value="/car/{id}", method= RequestMethod.GET)
+    @RequestMapping(value = "/car/{id}", method = RequestMethod.GET)
     public String findById(@PathVariable int id, Model model) {
         RestTemplate restTemplate = new RestTemplate();
         String ressourceUrl = "http://localhost:8080/car/" + id;
@@ -43,16 +39,16 @@ public class CarModelController {
 
 
     //Show view carForm
-   @RequestMapping(value = { "/addCar" }, method = RequestMethod.GET)
-   public String showAddCarPage(Model model) {
+    @RequestMapping(value = {"/addCar"}, method = RequestMethod.GET)
+    public String showAddCarPage(Model model) {
         CarForm carForm = new CarForm();
         model.addAttribute("carForm", carForm);
-       return "addCar";
+        return "addCar";
     }
 
 
-    @RequestMapping(value="/addCar", method= RequestMethod.POST)
-    public String save(@ModelAttribute CarForm car, Model model){
+    @RequestMapping(value = "/addCar", method = RequestMethod.POST)
+    public String save(@ModelAttribute CarForm car, Model model) {
 
         Car newCar = new Car();
         String url = "http://localhost:8080/car";
@@ -61,7 +57,7 @@ public class CarModelController {
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(MediaType.APPLICATION_JSON);
-        if(car != null){
+        if (car != null) {
             newCar.setBrand(car.getBrand());
             newCar.setName(car.getName());
             HttpEntity<Car> request = new HttpEntity(newCar, headers);
@@ -72,11 +68,9 @@ public class CarModelController {
     }
 
 
-
-    @RequestMapping(value="/car/{id}", method= RequestMethod.POST)
+    @RequestMapping(value = "/car/{id}", method = RequestMethod.POST)
     public String update(@ModelAttribute CarForm carForm, @PathVariable int id, Model model) {
 
-        // OK
         Car modifiedCar = new Car();
 
         RestTemplate restTemplate = new RestTemplate();
@@ -93,7 +87,19 @@ public class CarModelController {
         return "redirect:/car";
     }
 
-        // Fix
+
+    @RequestMapping(value = "/car/{id}", method = RequestMethod.DELETE)
+    public String delete(@PathVariable int id, Model model) {
+
+        RestTemplate restTemplate = new RestTemplate();
+        String ressourceUrl = "http://localhost:8080/car/" + id;
+        restTemplate.delete(ressourceUrl);
+        return "/carList";
+
+/*        Car car = restTemplate.getForObject(ressourceUrl, Car.class);
+        model.addAttribute("car", car);
+        return "car";*/
+    }
 
 
 

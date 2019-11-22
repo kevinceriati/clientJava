@@ -7,19 +7,22 @@
 </head>
 <body>
 
-<form th:action="@{'/car/' + ${car.id}}" th:object="${car}" method="POST">
-<table border="1">
-    <tr>
-        <th>ID</th>
-        <th>Modèle</th>
-        <th>Marque</th>
-        <th>Option</th>
-    </tr>
-    <td th:utext="${car.id}"></td>
-    <td><input th:field="*{name}" /></td>
-    <td><input th:field="*{brand}" /></td>
-    <td><input type="submit" value="modifier"/></td>
-</table>
-</form>
+        <table border="1">
+            <tr>
+                <th>ID</th>
+                <th>Modèle</th>
+                <th>Marque</th>
+                <th>Option</th>
+                <th>Option</th>
+            </tr>
+            <td th:utext="${car.id}">
+            </td>
+            <td>
+                <input th:field="*{car.name}" />
+            </td>
+            <td>
+                <input th:field="*{car.brand}" />
+            </td>
+        </table>
 </body>
 </html>

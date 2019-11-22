@@ -10,10 +10,10 @@
 
 <form th:action="@{/addCar}"
       th:object="${carForm}" method="POST">
-    car Name:
+    Model:
     <input type="text" th:field="*{name}" />
     <br/>
-    Last Name:
+    Brand:
     <input type="text" th:field="*{brand}" />
     <br/>
     <input type="submit" value="Create" />

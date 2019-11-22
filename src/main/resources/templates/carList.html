@@ -19,9 +19,26 @@
         <tr th:each="car : ${cars}">
             <td th:utext="${car.name}">...</td>
             <td th:utext="${car.brand}">...</td>
-            <td><a th:href="@{'/car/'+${car.id}}">Link</a></td>
+            <td>
+                <a th:href="@{'/car/'+ ${car.id}}">Voir</a> -
+                <a href="#" class="delete" th:data-link="@{'/car/' + ${car.id}}">Supprimer</a>
+            </td>
         </tr>
     </table>
 </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        $('.delete').on("click", (e) => {
+            e.preventDefault(),
+        var link = $(e.target).data('link');
+        $.ajax({
+            url: link,
+            method: 'delete',
+            success: function () {
+                location.reload();
+            }
+        })
+        })
+    </script>
 </body>
 </html>
